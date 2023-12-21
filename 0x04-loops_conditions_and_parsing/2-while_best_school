@@ -2,8 +2,8 @@
 #displays Best School 10 times
 
 c=1
-while [[$c -le 10]]
+while [[ $c -le 10 ]]
 do
 	echo "Best School"
-	c=$((c + 1))
+	c=$((c+1))
 done
