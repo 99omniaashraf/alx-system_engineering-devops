@@ -2,7 +2,7 @@
 #Bash script that gives you information about the school file
 
 file="school"
-if [[ -e "$file" ]]
+if [[ -f "$file" ]]
 then
 	echo "school file exists"
 	if [[ -s "$file" ]]
@@ -11,10 +11,7 @@ then
 	else
 		echo "school file is empty"
 	fi
-	if [[ -f "$file" ]]
-	then
-		echo "school is a regular file"
-	fi
+	echo "school is a regular file"
 else
 	echo "school file does not exist"
 fi
