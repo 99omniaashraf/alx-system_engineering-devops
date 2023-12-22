@@ -7,19 +7,16 @@
 #  Deletes the file /var/run/myscript.pid and terminates
 #itself when receiving a SIGQUIT or SIGTERM signal
 
-file="/var/run/myscript.pid"
-cleanup() {
-	rm -f "$file"
-	exit
-}
+count=1
 
-trap 'cleanup' SIGQUIT SIGTERM
-trap 'echo "I hate the kill command"' SIGTERM
-trap 'echo "Y U no love me?!"' SIGINT
+PIDFILE="/var/run/myscript.pid"
+touch $PIDFILE
+echo $$ > $PIDFILE
 
-echo $$ > "$file"
+trap 'echo I hate the kill command; rm $PIDFILE; kill -SIGKILL $$' SIGTERM
+trap 'echo Y U no love me?!; kill -SIGINTll $$' SIGINT
 
-while true
+while [ $count ]
 do
 	echo "To infinity and beyond"
 	sleep 2 
