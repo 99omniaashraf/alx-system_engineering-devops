@@ -2,4 +2,4 @@ The Systems Engineering DevOps Lemniscate and Model-Based System Operations. Abs
 -----------------------------------------
 
 The specific list of projects contained follows:
-	- https://github.com/99omniaashraf/alx-system_engineering-devops/tree/master/0x00-shell_basics
+	- 0x00-shell_basics
