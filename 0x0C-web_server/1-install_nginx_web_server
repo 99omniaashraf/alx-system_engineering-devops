@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Install the web server 'Nginx' on the server
+
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get install nginx -y
+ufw allow 'Nginx HTTP'
+echo "Hello World!" > /var/www/html/index.html
+sudo service nginx start
