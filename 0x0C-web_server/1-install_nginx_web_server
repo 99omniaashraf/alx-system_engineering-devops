@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 # Update the package list on the server
-sudo apt-get update -y
+apt-get update -y
 
 # Upgrade any outdated packages on the server
-sudo apt-get upgrade -y
+apt-get upgrade -y
 
 # Install the Nginx web server package
-sudo apt-get install nginx -y
+apt-get install nginx -y
 
 # (Optional) Open port 80 (HTTP port) on the firewall
 ufw allow 'Nginx HTTP'
@@ -16,4 +16,4 @@ ufw allow 'Nginx HTTP'
 echo "Hello World!" > /var/www/html/index.html
 
 # Start the Nginx web server service
-sudo service nginx start
+service nginx start
