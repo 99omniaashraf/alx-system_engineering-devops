@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
-# Install the web server 'Nginx' on the server
 
+# Update the package list on the server
 sudo apt-get update -y
+
+# Upgrade any outdated packages on the server
 sudo apt-get upgrade -y
+
+# Install the Nginx web server package
 sudo apt-get install nginx -y
+
+# (Optional) Open port 80 (HTTP port) on the firewall
 ufw allow 'Nginx HTTP'
+
+# Create an "index.html" file in the default web pages directory
 echo "Hello World!" > /var/www/html/index.html
+
+# Start the Nginx web server service
 sudo service nginx start
