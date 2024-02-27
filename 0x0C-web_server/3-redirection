@@ -1,34 +1,36 @@
 #!/usr/bin/env bash
-# Install, configure, and start the server
-apt-get update
-apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-mkdir -p /var/www/html/
-chmod -R 755 /var/www
-echo 'Hello World!' > /var/www/html/index.html
+# Configure nginx in a new Ubuntu machine with a permanent redirect
 
-# Define Nginx server configuration
-SERVER_CONFIG="
+# Update package index and install nginx
+sudo apt-get update
+sudo apt-get install nginx -y
+
+# Create a simple index.html file
+echo "Hello World!" | sudo tee /usr/share/nginx/html/index.html > /dev/null
+
+# Define the new nginx server configuration
+new_config="
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-	root /var/www/html;
-	index index.html index.htm index.nginx-debian.html;
-	server_name _;
-	location / {
-		try_files \$uri \$uri/ =404;
-	}
-	if (\$request_filename ~ redirect_me){
-		rewrite ^ https://sketchfab.com/bluepeno/models permanent;
-	}
-}"
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+    if (\$request_filename ~ redirect_me){
+        rewrite ^ https://www.youtube.com/@tpauldike permanent;
+    }
+}
+"
 
-# Write server configuration to Nginx config file
-echo "$SERVER_CONFIG" > /etc/nginx/sites-enabled/default
+# Write the new configuration to the default nginx site configuration file
+echo "$new_config" | sudo tee /etc/nginx/sites-available/default > /dev/null
 
-# Check if Nginx is running and start/restart accordingly
-if [ "$(pgrep -c nginx)" -le 0 ]; then
-	service nginx start
+# Check if nginx is running and start/restart accordingly
+if [ "$(pgrep nginx)" -le 0 ]; then
+    sudo service nginx start
 else
-	service nginx restart
+    sudo service nginx restart
 fi
