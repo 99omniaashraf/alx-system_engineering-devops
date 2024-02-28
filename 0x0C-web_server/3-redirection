@@ -1,30 +1,40 @@
 #!/usr/bin/env bash
-# Installs, configur and starts the server
-apt-get update
-apt-get -y install nginx
+
+# Install Nginx web server
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get install nginx -y
+
+# Allow Nginx through firewall
 sudo ufw allow 'Nginx HTTP'
-mkdir -p /var/www/html/
-sudo chmod -R 755 /var/www
-echo 'Hello World!' > /var/www/html/index.html
-SERVER_CONFIG=\
-"server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-	root /var/www/html;
-	index index.html index.htm index.nginx-debian.html;
-	server_name _;
-	location / {
-		try_files \$uri \$uri/ =404;
-	}
-	if (\$request_filename ~ redirect_me){
-		rewrite ^ https://sketchfab.com/bluepeno/models permanent;
-	}
-}"
 
-bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
+# Create a HTML file for the redirection message
+echo "
+	<html>
+		<head>
+			<title>301 Moved Permanently</title>
+		</head>
+		<body>
+			<h1>301 Moved Permanently</h1>
+			<p>The document has moved <a href=\"https://www.youtube.com/watch?v=QH2-TGUlwu4\">here</a>.</p>
+		</body>
+	</html>" | sudo tee /var/www/html/redirect_me.html > /dev/null
 
-if [ "$(pgrep -c nginx)" -le 0 ]; then
-	service nginx start
-else
-	service nginx restart
-fi
+# Configure Nginx to redirect /redirect_me
+sudo sh -c 'echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm;
+
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}" > /etc/nginx/sites-available/default'
+
+# Restart Nginx
+sudo service nginx restart
+
