@@ -48,4 +48,4 @@ frontend clickviral-frontend-https
 backend clickviral-backend
         balance roundrobin
         server 509488-web-01 3.83.245.24:80 check
-        server 509488-web-02 54.208.71.56:80 check
+        server 509488-web-02 52.86.141.140:80 check
