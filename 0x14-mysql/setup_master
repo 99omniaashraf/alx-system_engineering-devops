@@ -26,3 +26,4 @@ symbolic-links=0
 echo "$config_data" | sudo dd status=none of=/etc/mysql/mysql.conf.d/mysqld.cnf
 sudo systemctl restart mysql
 echo -e "*** Done ***"
+
